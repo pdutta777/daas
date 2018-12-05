@@ -23,5 +23,13 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.service.internalPort }}
+        volumeMounts:
+          - name: sfpassvol
+            mountPath: "/tmp/sfpass"
+            readOnly: true
         resources:
 {{ toYaml .Values.resources | indent 12 }}
+      volumes:
+      - name: sfpassvol
+        secret:
+          secretName: sfpass
